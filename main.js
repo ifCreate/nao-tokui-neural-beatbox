@@ -1,7 +1,7 @@
 
 // keras-based model to classify drum kit sound based on its spectrogram.
 // python script: https://gist.github.com/naotokui/a2b331dd206b13a70800e862cfe7da3c
-const modelpath = "https://s3-ap-northeast-1.amazonaws.com/codepen-dev/models/drum_classification_128_augmented/model.json";
+const modelpath = "localized/models/drum_classification_128_augmented/model.json";
 
 // Drum kit 
 const DRUM_CLASSES = [
@@ -434,7 +434,7 @@ function sleep(ms) {
 const TIME_HUMANIZATION = 0.01;
 
 // Add small reverb
-let dummySoundPath = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/2096725/silent.wav';
+let dummySoundPath = 'localized/sound/silent.wav';
 let masterComp = new Tone.Compressor().toMaster();
 
 let envelopes = [];
@@ -548,7 +548,7 @@ let outputs = {
 };
 
 let rnn = new mm.MusicRNN(
-   'https://storage.googleapis.com/download.magenta.tensorflow.org/tfjs_checkpoints/music_rnn/drum_kit_rnn'
+   'localized/models/tfjs_drum_kit_rnn'
 );
 
 Promise.all([
