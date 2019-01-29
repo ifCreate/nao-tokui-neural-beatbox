@@ -75,22 +75,36 @@ for (let i=0; i<DRUM_CLASSES.length; i++){
    });
 }
 
+var mic, recorder, compressor, soundFile;
+
+function onClickStart() {
+    // start audio context & mic.
+    // Chrome requires that audio context must start after user input
+    getAudioContext().resume();
+    mic.start();
+    recorder.setInput(mic);
+
+    // display the rest of the page
+    select('.app').style('display', 'initial');
+    // hide the start button itself
+    select('#start_button')
+}
+
 function setup() {
    // GUIs
+   select('#start_button').mouseClicked(onClickStart).size(100,50).attribute('disabled','disabled');
    select('#record_button').mouseClicked(toggleRecording).size(100,50).attribute('disabled','disabled');
    select('#classify_button').mouseClicked(classifyAll).size(100,50).attribute('disabled','disabled');
    select('#play_button').size(100,50).attribute('disabled', 'disabled');
    select('#ws-waveform').drop(onFileDropped); // enable drag and drop of audio files
    select('#ws-waveform').dragOver(onDragOver); 
    select('#ws-waveform').dragLeave(onDragLeave);
-   
+
    // create an audio in and prompt user to allow mic input
    mic = new p5.AudioIn();
-   mic.start();
 
    // create a sound recorder and set input
    recorder = new p5.SoundRecorder();
-   recorder.setInput(mic);
 
    // compressor - for better audio recording
    compressor = new p5.Compressor();
@@ -101,6 +115,7 @@ function setup() {
    soundFile = new p5.SoundFile();
    soundFile.disconnect();
    // soundFile = loadSound("https://dl.dropbox.com/s/00ykku8vjgimnfb/TR-08_KIT_A.wav?raw=1", onLoaded);
+
 }
 
 
@@ -316,6 +331,7 @@ function draw(){
 
    if (!isReadyToRecord){
       if (isModelLoaded && isRNNModelLaded){
+         select('#start_button').removeAttribute('disabled');
          select('#record_button').removeAttribute('disabled');
          select('#classify_button').removeAttribute('disabled');
          select('#play_button').removeAttribute('disabled');
