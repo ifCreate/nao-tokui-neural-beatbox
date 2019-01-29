@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Neural Beatbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <div id='info'>
+        <h2>Neural Beatbox (alpha)</h2>
+  
+        <h5>Make some noise and record your voice! <br>
+           Deep Learning models will analyze and build a drum kit, then start generating drum patterns infinitely with your sound.</h5> 
+  
+        <p id="warning"> Chrome only</p>
+    </div>
+
+    <!--  RECORDING   -->
+    <div id="initialization">
+        <div class="progress">
+        <div class="indeterminate"></div>
+        </div>   
+        Loading...
+    </div>
+    
+    <button  id="record_button" disabled>1. Record</button> or Drag&Drop a sound file↓
+    <div class="progress" id="progressbar-record"  style="width:0%"></div>
+    <div id="ws-waveform"><div id="ws-waveform-text"></div></div>
+    <div id="ws-spectorogram"></div>
+
+
+    <!--  CLASSIFICATION    -->
+    <button  id="classify_button" disabled>2. Analyze</button> 
+    <div class="progress" id="progressbar-analysis" style="display:none">
+        <div class="indeterminate"></div>
+    </div>
+
+    <div class="grid-container">
+        <div class="grid-item" id="ws-waveform-kit-0">Kick </div>
+        <div class="grid-item" id="ws-waveform-kit-1">Snare</div>
+        <div class="grid-item" id="ws-waveform-kit-2">Hi-hat closed</div>
+        <div class="grid-item" id="ws-waveform-kit-3">Hi-hat open</div>
+        <div class="grid-item" id="ws-waveform-kit-4">Tom low</div>
+        <div class="grid-item" id="ws-waveform-kit-5">Tom mid</div>
+        <div class="grid-item" id="ws-waveform-kit-6">Tom high</div>
+        <div class="grid-item" id="ws-waveform-kit-7">Clap</div>
+        <div class="grid-item" id="ws-waveform-kit-8">Rim</div>
+    </div>
+    <p>
+
+        <button id="play_button" disabled>3. Play!!</button>
+
+
+    <div id='info'>    
+        <h3>How does it work?</h3>
+
+        Convolutional Neural Network is used to analyze and classify audio segments based on spectrograms <a href="https://codepen.io/naotokui/pen/rrGGNJ" target="_">(demo codepen)</a> and Recurrent Neural Network(LSTM) for generating drum sequences.<p>
+
+        Shout-out to Tero Parviainen! Rhythm generation part of this codepen is based on his amazing <a href=" https://codepen.io/teropa/pen/JLjXGK">Neural Drum Machine</a>    
+        <p>Built with magenta.js, tensorflow.js and p5.js by <a href="https://twitter.com/naotokui_en/" target="_">@naotokui_en</a><br>
+    </div>
+
+    <div id='info'>    
+        2018.8.30 -added: drag&drop support<br>
+        2018.8.30 -updated: model re-trained with data augmentation<br>
+        2018.8.17 -fixed: audio routing. now properly using envelopes!!<br>
+        2018.8.17 -fixed: duplication in drum kit. one audio segment is used only once in a drum kit<br>
+        2018.8.9 -added normalization process before the classification.<br>
+        2018.8.6 -initial release.
+    </div>
+
+    <!-- Vendor libraries -->
+    <script src="lib/jquery-3.2.1.min.js"></script>
+    <script src="lib/wavesurfer.min.js"></script>
+    <script src="lib/wavesurfer.regions.min.js"></script>
+    <script src="lib/wavesurfer.spectrogram.min.js"></script>
+    <script src="lib/Tone.min.js"></script>
+    <script src="lib/lodash.min.js"></script>
+    <script src="lib/p5.min.js"></script>
+    <script src="lib/p5.dom.js"></script>
+    <script src="lib/p5.sound.js"></script>
+    <script src="lib/dsp.min.js"></script>
+    <script src="lib/tf.min.js"></script>
+    <script src="lib/magentamusic.min.js"></script>
+    <!-- app logic -->
+    <script src="audio_classification.js"></script> 
+    <script src="onset.js"></script> 
+    <script src="nt-utils.js"></script> 
+    <script src="main.js"></script>
+
+</body>
+</html>
