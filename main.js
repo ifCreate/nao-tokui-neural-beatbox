@@ -599,7 +599,7 @@ Promise.all([
          }
          let velocity = getStepVelocity(stepIdx);
          drums.forEach(d => {
-            let humanizedTime = stepIdx === 0 ? time : humanizeTime(time);
+             let humanizedTime = stepIdx === 0 ? time : humanizeTime(time);
             outputs[activeOutput].play(d, velocity, humanizedTime);
          });
       },
@@ -766,5 +766,23 @@ Promise.all([
       }
       return res;
    }
+
+    // Web MIDI
+    // we want to map the keys to drum samples
+    const directControlMidi = [48, 50, 52, 53, 55, 57, 59, 60, 62]
+    WebMidi.enable(err => {
+        if (err) {
+            console.error('WebMidi could not be enabled', err);
+            return;
+        }
+        const input = WebMidi.inputs[0];
+        if (!input) return console.error('WebMidi has no input connected');
+        console.info('Initialized WebMidi. Connected to ' + input.name);
+        input.addListener('noteon', "all", (e) => {
+            const drumIndex = directControlMidi.indexOf(e.note.number)
+            if (drumIndex === -1) return; // midi note is not linked to a sample.
+            drumkit_regions[drumIndex].play();
+        })
+    })
 });
 
