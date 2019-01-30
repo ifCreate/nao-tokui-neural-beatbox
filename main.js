@@ -601,7 +601,6 @@ Promise.all([
          drums.forEach(d => {
             let humanizedTime = stepIdx === 0 ? time : humanizeTime(time);
             outputs[activeOutput].play(d, velocity, humanizedTime);
-            visualizePlay(humanizedTime, stepIdx, d);
          });
       },
       // need to initialize with empty array with the length I wanted to have
@@ -704,7 +703,6 @@ Promise.all([
             drums.forEach(d => {
                let humanizedTime = stepIdx === 0 ? time : humanizeTime(time);
                outputs[activeOutput].play(d, velocity, humanizedTime);
-               // visualizePlay(humanizedTime, stepIdx, d);
             });
          },
          state.pattern.map((drums, stepIdx) => ({ drums, stepIdx })),
@@ -716,96 +714,7 @@ Promise.all([
       sequence.start();
    }
 
-   function visualizePlay(time, stepIdx, drumIdx) {
-      // Tone.Draw.schedule(() => {
-      //    if (drumIdx < segments.length){
-      //       segments[drumIdx].update({color:randomColor(0.25)});
-      //    }
-      // }, time);
-   }
-
-   function renderPattern(regenerating = false) {
-      //       let seqEl = document.querySelector('.sequencer .steps');
-      //       while (stepEls.length > state.pattern.length) {
-      //          let { stepEl, gutterEl } = stepEls.pop();
-      //          stepEl.remove();
-      //          if (gutterEl) gutterEl.remove();
-      //       }
-      //       for (let stepIdx = 0; stepIdx < state.pattern.length; stepIdx++) {
-      //          let step = state.pattern[stepIdx];
-      //          let stepEl, gutterEl, cellEls;
-      //          if (stepEls[stepIdx]) {
-      //             stepEl = stepEls[stepIdx].stepEl;
-      //             gutterEl = stepEls[stepIdx].gutterEl;
-      //             cellEls = stepEls[stepIdx].cellEls;
-      //          } else {
-      //             stepEl = document.createElement('div');
-      //             stepEl.classList.add('step');
-      //             stepEl.dataset.stepIdx = stepIdx;
-      //             seqEl.appendChild(stepEl);
-      //             cellEls = [];
-      //          }
-
-      //          stepEl.style.flex = stepIdx % 2 === 0 ? state.swing : 1 - state.swing;
-
-      //          if (!gutterEl && stepIdx < state.pattern.length - 1) {
-      //             gutterEl = document.createElement('div');
-      //             gutterEl.classList.add('gutter');
-      //             seqEl.insertBefore(gutterEl, stepEl.nextSibling);
-      //          } else if (gutterEl && stepIdx >= state.pattern.length) {
-      //             gutterEl.remove();
-      //             gutterEl = null;
-      //          }
-
-      //          if (gutterEl && stepIdx === state.seedLength - 1) {
-      //             gutterEl.classList.add('seed-marker');
-      //          } else if (gutterEl) {
-      //             gutterEl.classList.remove('seed-marker');
-      //          }
-
-      //          for (let cellIdx = 0; cellIdx < DRUM_CLASSES.length; cellIdx++) {
-      //             let cellEl;
-      //             if (cellEls[cellIdx]) {
-      //                cellEl = cellEls[cellIdx];
-      //             } else {
-      //                cellEl = document.createElement('div');
-      //                cellEl.classList.add('cell');
-      //                cellEl.classList.add(_.kebabCase(DRUM_CLASSES[cellIdx]));
-      //                cellEl.dataset.stepIdx = stepIdx;
-      //                cellEl.dataset.cellIdx = cellIdx;
-      //                stepEl.appendChild(cellEl);
-      //                cellEls[cellIdx] = cellEl;
-      //             }
-      //             if (step.indexOf(cellIdx) >= 0) {
-      //                cellEl.classList.add('on');
-      //             } else {
-      //                cellEl.classList.remove('on');
-      //             }
-      //          }
-      //          stepEls[stepIdx] = { stepEl, gutterEl, cellEls };
-
-      //          let stagger = stepIdx * (300 / (state.patternLength - state.seedLength));
-      //          setTimeout(() => {
-      //             if (stepIdx < state.seedLength) {
-      //                stepEl.classList.add('seed');
-      //             } else {
-      //                stepEl.classList.remove('seed');
-      //                if (regenerating) {
-      //                   stepEl.classList.add('regenerating');
-      //                } else {
-      //                   stepEl.classList.remove('regenerating');
-      //                }
-      //             }
-      //          }, stagger);
-      //       }
-
-      //       setTimeout(repositionRegenerateButton, 0);
-   }
-
-
-
    function regenerate(seed) {
-      renderPattern(true);
       return generatePattern(seed, state.patternLength - seed.length).then(
          result => {
             state.pattern = result;
@@ -818,7 +727,6 @@ Promise.all([
       state.pattern.forEach(function(drums, stepIdx) {
          sequence.at(stepIdx, {stepIdx:stepIdx, drums:drums});
       });
-      renderPattern();
    }
 
    function toNoteSequence(pattern) {
