@@ -782,6 +782,7 @@ Promise.all([
             const drumIndex = directControlMidi.indexOf(e.note.number)
             if (drumIndex === -1) return; // midi note is not linked to a sample.
             drumkit_regions[drumIndex].play();
+            drumkit_regions[drumIndex].update({color:randomColor(0.25)});
         })
     })
 });
