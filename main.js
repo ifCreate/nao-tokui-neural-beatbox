@@ -775,14 +775,16 @@ Promise.all([
             console.error('WebMidi could not be enabled', err);
             return;
         }
-        const input = WebMidi.inputs[0];
-        if (!input) return console.error('WebMidi has no input connected');
-        console.info('Initialized WebMidi. Connected to ' + input.name);
-        input.addListener('noteon', "all", (e) => {
-            const drumIndex = directControlMidi.indexOf(e.note.number)
-            if (drumIndex === -1) return; // midi note is not linked to a sample.
-            drumkit_regions[drumIndex].play();
-            drumkit_regions[drumIndex].update({color:randomColor(0.25)});
+        if (!WebMidi.inputs.length) return console.error('WebMidi has no input connected');
+        
+        WebMidi.inputs.forEach((input) => {
+           console.info('Initialized WebMidi. Connected to ' + input.name);
+           input.addListener('noteon', "all", (e) => {
+               const drumIndex = directControlMidi.indexOf(e.note.number)
+               if (drumIndex === -1) return; // midi note is not linked to a sample.
+               drumkit_regions[drumIndex].play();
+               drumkit_regions[drumIndex].update({color:randomColor(0.25)});
+           })
         })
     })
 });
