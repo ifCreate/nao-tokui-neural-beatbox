@@ -769,7 +769,7 @@ Promise.all([
 
     // Web MIDI
     // we want to map the keys to drum samples
-    const directControlMidi = [48, 50, 52, 53, 55, 57, 59, 60, 62]
+    const directControlMidi = [0, 1, 2, 16, 17, 18, 32, 33, 34]
     WebMidi.enable(err => {
         if (err) {
             console.error('WebMidi could not be enabled', err);
