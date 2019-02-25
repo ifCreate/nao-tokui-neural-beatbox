@@ -769,7 +769,7 @@ Promise.all([
 
     // Web MIDI
     // we want to map the keys to drum samples
-    const directControlMidi = [0, 1, 2, 16, 17, 18, 32, 33, 34]
+    const directControlMidi = [80, 81, 82, 96, 97, 98, 112, 113, 114]
     WebMidi.enable(err => {
         if (err) {
             console.error('WebMidi could not be enabled', err);
@@ -785,7 +785,21 @@ Promise.all([
                drumkit_regions[drumIndex].play();
                drumkit_regions[drumIndex].update({color:randomColor(0.25)});
            })
-        })
+         })
+         const launchpadOut = WebMidi.getOutputByName('Launchpad Mini')
+         if (!launchpadOut) return
+         console.info('Lighting up launchpad')
+         // turn off existing lights
+         for (let note = 0; note < 128; note++) {
+            launchpadOut.stopNote(note, 1)
+         }
+         // light up buttons on launchpad
+         directControlMidi.forEach(note => {
+            launchpadOut.playNote(note, 1, {
+               rawVelocity: true,
+               velocity: 124, // green
+            })
+         })
     })
 });
 
