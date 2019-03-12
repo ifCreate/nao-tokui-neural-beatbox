@@ -130,4 +130,23 @@ button {
     margin: 10px;
     valign: center;
  }
+ #ws-spectorogram canvas {
+   width: 100% !important;
+   height: 100% !important;
+ }
+ .grid-item canvas {
+   width: 100% !important;
+ }
+ .wavesurfer-region {
+    width: 100% !important;
+ }
+ .grid-item>wave>wave:first-child {
+   width: 100% !important;
+ }
+ /* #ws-waveform canvas{
+   width: 100% !important;
+ }
+ #waveform>wave:first-child>wave:first-child {
+    width: 100% !important;
+ } */
  
