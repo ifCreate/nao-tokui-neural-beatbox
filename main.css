@@ -1,42 +1,95 @@
+button {
+   outline: none;
+   padding: 0px;
+   border: none;
+   color: #FFF;
+   border-radius: 4px;
+
+}
+#start_button {
+   background-color: #4589F4;
+}
+.record_btn_wrap {
+   width: 90%;
+   margin: 0 auto;
+   display: flex;
+   align-items: center;
+}
+.record_btn_wrap p {
+   margin-left: 20px;
+}
 .info{
-    background: #555;
-    margin: 10px;
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 30px auto 10px;
+    border: 1px solid #FFF;
+    border-radius: 9px;
+    padding: 0 20px 30px;
     width: 90%;
  }
- 
+ .progress_out_wrap {
+    margin: 0 auto;
+    width: 90%;
+    padding: 0 20px;
+ }
+ .progress_in_wrap {
+   margin: 0 -20px;
+ }
+#progressbar-record {
+   border-radius: 9px;
+   max-width: 100%;
+   width: 6%;
+   height: 4px;
+   background: linear-gradient(to right,#FF7877,#4589F4);
+}
+.grid_wrap {
+   margin: 0 auto;
+   width: 90%;
+   border: 1px solid #FFF;
+   border-radius: 9px;
+   padding: 20px;
+   background: rgba(255, 255, 255, 0.08);
+}
+.last_info {
+   padding-top: 20px;
+}
 .app {
    display: none;
 }
 
  #warning {
-    color: #f55;
+    color: #FF7877;
  }
  
  #ws-waveform {
-    background: black;
+    background: rgba(255, 255, 255, 0.08);
     width: 90%;
+    padding: 0 20px;
     justify-content: center; 
-    margin: 10px;
-    border: 2px solid white; 
+    margin: 10px auto 20px;
+    border: 1px solid #4589F4; 
+    border-radius: 9px;
  }
  #ws-spectorogram {
-    background: black;
+    /* background: black; */
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 9px;
     width: 90%;
     justify-content: center; 
-    margin: 10px;
+    margin: 10px auto 30px;
+    padding: 0 20px;
     border: 2px solid white; 
  }
  
  #record_button, #classify_button, #play_button {
     font-size: 40;
-    color: black;
-    margin: 5px;
+    color: #FFF;
+    background-color: #FF7877;
  }
- 
+ #classify_button {
+    margin-bottom: 20px;
+ }
  .progress{
    max-width: 90%;
-   margin: 5px;
  }
  
  #top-label {
@@ -45,21 +98,21 @@
  }
  
  .grid-container {
-   display: inline-grid;
-   grid-template-columns: auto auto auto;
-   background-color: white;
-   padding: 2px;
-    margin: 10px;
-    width: 90%;
+   border-radius: 9px;
+   display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+   width: 100%;
  }
  
  .grid-item {
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    /* border: 2px solid rgba(255, 255, 255, 0.8); */
     padding: 10px;
+    width: 31%;
     text-align: center;
-    background: black;
     justify-content: center; 
     border: 0px solid white; 
+    margin-bottom: 20px;
  }
  
  html,
@@ -69,7 +122,7 @@
    width: 100%;
    height: 80%;
  
-   background-color: #333;
+   background-color: #1B1C2A;
    color: white; 
  }
  
