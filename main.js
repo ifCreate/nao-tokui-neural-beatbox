@@ -92,10 +92,10 @@ function onClickStart() {
 
 function setup() {
    // GUIs
-   select('#start_button').mouseClicked(onClickStart).size(100,50).attribute('disabled','disabled');
-   select('#record_button').mouseClicked(toggleRecording).size(100,50).attribute('disabled','disabled');
-   select('#classify_button').mouseClicked(classifyAll).size(100,50).attribute('disabled','disabled');
-   select('#play_button').size(100,50).attribute('disabled', 'disabled');
+   select('#start_button').mouseClicked(onClickStart).size(100,30).attribute('disabled','disabled');
+   select('#record_button').mouseClicked(toggleRecording).size(100,30).attribute('disabled','disabled');
+   select('#classify_button').mouseClicked(classifyAll).size(100,30).attribute('disabled','disabled');
+   select('#play_button').size(100,30).attribute('disabled', 'disabled');
    select('#ws-waveform').drop(onFileDropped); // enable drag and drop of audio files
    select('#ws-waveform').dragOver(onDragOver); 
    select('#ws-waveform').dragLeave(onDragLeave);
