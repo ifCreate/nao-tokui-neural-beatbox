@@ -1,49 +1,53 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Neural Beatbox</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="materialize.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="fonts-material-icons.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <link rel="stylesheet" type="text/css" href="loading.css">
+    <link rel="stylesheet" type="text/css" href="slider.css">
 </head>
+
 <body>
-    <div class='info'>
-        <h2>Neural Beatbox (alpha)</h2>
-  
-        <h5>Make some noise and record your voice! <br>
-           Deep Learning models will analyze and build a drum kit, then start generating drum patterns infinitely with your sound.</h5> 
-  
-        <p id="warning"> Chrome only</p>
-
-        <div id="initialization">
-            <div class="progress">
-            <div class="indeterminate"></div>
-            </div>   
-            Loading...
-        </div>
-        <button  id="start_button" disabled>0. Start</button>
-
+    <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
     </div>
-
+    <div id="initialization">
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    </div>
     <div class="app">
+        <h4 class="title">Neural Beatbox</h4>
         <!--  RECORDING   -->
         <div class="record_btn_wrap">
-            <button  id="record_button" disabled>1. Record</button><p> or Drag&Drop a sound file↓</p>
+            <button id="record_button" disabled>1. Record</button>
+            <p> or Drag&Drop a sound file↓</p>
         </div>
         <div class="progress_out_wrap">
             <div class="progress_in_wrap">
-                <div class="progress" id="progressbar-record"  style="width:0%"></div>
-            </div>    
+                <div class="progress" id="progressbar-record" style="width:0%"></div>
+            </div>
         </div>
-        
-        <div id="ws-waveform"><div id="ws-waveform-text"></div></div>
+
+        <div id="ws-waveform">
+            <div id="ws-waveform-text"></div>
+        </div>
         <div id="ws-spectorogram"></div>
-    
-    
+
+
         <!--  CLASSIFICATION    -->
         <div class="record_btn_wrap">
-            <button  id="classify_button" disabled>2. Analyze</button> 
+            <button id="classify_button" disabled>2. Analyze</button>
         </div>
         <div class="progress" id="progressbar-analysis" style="display:none">
             <div class="indeterminate"></div>
@@ -61,30 +65,150 @@
                 <div class="grid-item" id="ws-waveform-kit-8">Rim</div>
             </div>
         </div>
-       
-        <p>
-            <div class="record_btn_wrap">
-                <button id="play_button" disabled>3. Play!</button>
-            </div>
-    
-        <div class='info'>    
-            <h3>How does it work?</h3>
-    
-            Convolutional Neural Network is used to analyze and classify audio segments based on spectrograms and Recurrent Neural Network(LSTM) for generating drum sequences.<p>
-    
-            Shout-out to Tero Parviainen! Rhythm generation part of this codepen is based on his amazing Neural Drum Machine 
-            <p>Built with magenta.js, tensorflow.js and p5.js by @naotokui_en<br>
+        <div class="record_btn_wrap">
+            <button id="play_button" disabled>3. Play!</button>
         </div>
-    
-        <!-- <div class='info last_info'>    
-            2018.8.30 -added: drag&drop support<br>
-            2018.8.30 -updated: model re-trained with data augmentation<br>
-            2018.8.17 -fixed: audio routing. now properly using envelopes!!<br>
-            2018.8.17 -fixed: duplication in drum kit. one audio segment is used only once in a drum kit<br>
-            2018.8.9 -added normalization process before the classification.<br>
-            2018.8.6 -initial release.
-        </div> -->
+
+        <div class='info'>
+            <div class="control" id="c1">
+                <div class="input-field">
+                    <p class="control-title">Pattern length</p>
+                    <select id="pattern-length">
+                        <option>4</option>
+                        <option>8</option>
+                        <option>16</option>
+                        <option selected>32</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control" id="c2">
+                <p class="right-control-title">Tempo</p>
+                <div class="slider-bar">
+                    <input type="range" id="tempo" min="20" max="240" value="120" step="1">
+                </div>
+            </div>
+            <div class="control" id="c3">
+                <p class="right-control-title">Swing</p>
+                <div class="slider-bar">
+                    <input type="range" id="swing" min="0.5" max="0.7" value="0.55" step="0.05">
+                </div>
+            </div>
+            <div class="control" id="c4">
+                <p class="right-control-title">Temperature</p>
+                <div class="slider-bar">
+                    <input type="range" id="temperature" class="tooltipped" min="0.5" max="2" value="1.1" step="0.1" data-tooltip="Higher temperatures will make the neural network generates wilder patterns"
+                           data-delay="500">
+                </div>
+            </div>
+        </div>
+        <div class="info2">
+            <div class="des grey-text" id="c1d">This parameter controls how long a pattern of a beatbox will last.</div>
+            <div class="des grey-text" id="c2d">This parameter controls how long a pattern of a beatbox will last.</div>
+            <div class="des grey-text" id="c3d">This parameter controls how long a pattern of a beatbox will last.</div>
+            <div class="des grey-text" id="c4d">This parameter controls how long a pattern of a beatbox will last.</div>
+        </div>
+        <div class="record_btn_wrap">
+            <button id="apply_button">Apply code</button>
+            <button id="save_button">Save code to file</button>
+            <button id="load_button">Load code from file</button>
+            <button id="modify_button">Modify Seed</button>
+            <button id="run_button">Run Training</button>
+        </div>
+        <div class="code-ground">
+            <div class="code-container" id="code_block"></div>
+            <div class="res-curve">
+                <div id="loss" class="curve-border grey-text" style="margin-bottom: 10px;">
+                    <h5>Loss</h5>
+                    <img class="load_img" src="localized/img/onTraing.gif" alt="onTrainng">
+                    <p class="load_text">On training...</p>
+                </div>
+                <div id="acc" class="curve-border grey-text">
+                    <h5>Acc</h5>
+                    <img class="load_img" src="localized/img/onTraing.gif" alt="onTrainng">
+                    <p class="load_text">On training...</p>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="seed_window">
+        <button id="close_seed"><i class="material-icons" style="font-size: 36px">close</i></button>
+        <div class="seed_title">
+            <i class="seed_icon material-icons" style="font-size: 2em">spa</i>
+            <h5 class="seed_head">Seed pattern</h5>
+            <div class="seed_detail grey-text">Seed is a very interesting parameter, which could give a user-defined melody
+                as a seed, and guide the model to give the subsequent rhythm.</div>
+        </div>
+        <div class="seed_hr"></div>
+        <div class="seed_content">
+            <div class="seed_row">
+                <div class="seed_col_head">Kick:</div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+            </div>
+            <div class="seed_row">
+                <div class="seed_col_head">Snare:</div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+            </div>
+            <div class="seed_row">
+                <div class="seed_col_head">Hi-hat closed:</div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+            </div>
+            <div class="seed_row">
+                <div class="seed_col_head">Hi-hat open:</div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+            </div>
+            <div class="seed_row">
+                <div class="seed_col_head">Tom low:</div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+            </div>
+            <div class="seed_row">
+                <div class="seed_col_head">Tom mid:</div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+            </div>
+            <div class="seed_row">
+                <div class="seed_col_head">Tom high:</div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+            </div>
+            <div class="seed_row">
+                <div class="seed_col_head">Clap:</div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+            </div>
+            <div class="seed_row">
+                <div class="seed_col_head">Rim:</div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+                <div class="seed_col"></div>
+            </div>
+
+        </div>
+    </div>
+    <div class="dark_window"></div>
+
 
 
     <!-- Vendor libraries -->
@@ -94,6 +218,7 @@
     <script src="lib/wavesurfer.spectrogram.min.js"></script>
     <script src="lib/Tone.min.js"></script>
     <script src="lib/lodash.min.js"></script>
+    <script src="lib/materialize.min.js"></script>
     <script src="lib/p5.min.js"></script>
     <script src="lib/p5.dom.js"></script>
     <script src="lib/p5.sound.js"></script>
@@ -102,10 +227,40 @@
     <script src="lib/magentamusic.min.js"></script>
     <script src="lib/webmidi.min.js"></script>
     <!-- app logic -->
-    <script src="audio_classification.js"></script> 
-    <script src="onset.js"></script> 
-    <script src="nt-utils.js"></script> 
+    <script src="audio_classification.js"></script>
+    <script src="onset.js"></script>
+    <script src="nt-utils.js"></script>
+<!--    <script src="main.js"></script>-->
+    <script src="slider.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#pattern-length').formSelect();
+        })
+    </script>
+
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+
+    <!--  plugin-->
+    <script src="lib/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+    <!-- Logic -->
     <script src="main.js"></script>
+    <script id="trick" type='text/javascript'>
+    </script>
+    <style>
+        .ace-solarized-dark {
+            background: #292c39;
+            color: #d9e0e4;
+        }
+
+        .ace-solarized-dark .ace_gutter {
+            background: #333546;
+            color: #d0edf7;
+        }
+    </style>
+
+
+    <script type="text/javascript"></script>
 
 </body>
+
 </html>
