@@ -14,7 +14,7 @@ import multiprocessing
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-data = np.load('drum_data_128.npz')
+data = np.load('./data/drum_data_128.npz')
 NB_CLASS = 9
 drum_melspecs = data['melspecs']
 drum_genres = data['genres']
